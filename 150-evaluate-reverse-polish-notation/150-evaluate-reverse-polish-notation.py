@@ -10,11 +10,9 @@ class Solution:
                 elif val == '-':
                     stack.append(num1-num2)
                 elif val == '*':
-                    sign = (-1 if num1<0 else 1) * (-1 if num2<0 else 1)
-                    stack.append(abs(num1)*abs(num2)*sign)
+                    stack.append(num1*num2)
                 else:
-                    sign = (-1 if num1<0 else 1) * (-1 if num2<0 else 1)
-                    stack.append(abs(num1)//abs(num2)*sign)
+                    stack.append(int(num1/num2))
             else:
                 stack.append(int(val))
         return stack.pop()
