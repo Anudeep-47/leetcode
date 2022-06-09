@@ -9,17 +9,10 @@ class Solution:
             return list2
         if list2 is None:
             return list1
-        if list1.val > list2.val:
-            list1, list2 = list2, list1
-        temp1 = list1
-        while temp1.next is not None and list2 is not None:
-            if temp1.next.val > list2.val:
-                temp2 = list2.next
-                list2.next = temp1.next
-                temp1.next = list2
-                list2 = temp2
-            temp1 = temp1.next
-        if list2 is not None:
-            temp1.next = list2
-        return list1
+        if list1.val <= list2.val:
+            list1.next = self.mergeTwoLists(list1.next, list2)
+            return list1
+        else:
+            list2.next = self.mergeTwoLists(list1, list2.next)
+            return list2
         
