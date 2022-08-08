@@ -1,20 +1,18 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        Map<Integer, Integer> indexMap = new HashMap<>();
-        Queue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b-a);
+        ArrayDeque<Integer> maxDeque = new ArrayDeque<>();
         int[] res = new int[nums.length-k+1];
         int start=0;
         for(int end=start; end<nums.length; end++){
-            if(!indexMap.containsKey(nums[end])){
-                maxHeap.add(nums[end]);
+            while(!maxDeque.isEmpty() && maxDeque.getFirst()<start){
+                maxDeque.removeFirst();
             }
-            indexMap.put(nums[end], end);
+            while(!maxDeque.isEmpty() && nums[maxDeque.getLast()]<nums[end]){
+                maxDeque.removeLast();
+            }
+            maxDeque.addLast(end);
             if(end-start+1==k){
-                while(indexMap.get(maxHeap.peek()) < start){
-                    int top = maxHeap.poll();
-                    indexMap.remove(top);
-                }
-                res[end-k+1] = maxHeap.peek();
+                res[end-k+1] = nums[maxDeque.getFirst()];
                 start++;
             }
         }
