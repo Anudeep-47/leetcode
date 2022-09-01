@@ -1,18 +1,19 @@
 class Solution {
     public int longestPalindromeSubseq(String s) {
-        return recursiveLPS(s, 0, s.length()-1, new int[s.length()][s.length()]);
-    }
-    private int recursiveLPS(String s, int i, int j, int[][] memo){
-        if(i>j)return 0;
-        if(i==j) return 1;
-        
-        if(memo[i][j]!=0)return memo[i][j];
-        if(s.charAt(i)==s.charAt(j)){
-            memo[i][j] = 2 + recursiveLPS(s, i+1, j-1, memo);
+        int[][] dp = new int[s.length()][s.length()];
+        for(int i=s.length()-1; i>=0; i--){
+            for(int j=i; j<s.length(); j++){
+                if(i==j){
+                    dp[i][j] = 1;
+                }
+                else if(s.charAt(i)==s.charAt(j)){
+                    dp[i][j] = 2+dp[i+1][j-1];
+                }
+                else{
+                    dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1]);
+                }
+            }
         }
-        else {
-            memo[i][j] = Math.max(recursiveLPS(s, i+1, j, memo), recursiveLPS(s, i, j-1, memo));
-        }
-        return memo[i][j];
+        return dp[0][s.length()-1];
     }
 }
