@@ -4,7 +4,7 @@ class Solution {
         int start = findFirstOccurance(nums, target, 0, nums.length-1);
         int end = -1;
         if(start!=end){
-            end = findLastOccurance(nums, target, 0, nums.length-1);
+            end = findLastOccurance(nums, target, start, nums.length-1);
         }
         return new int[]{start, end};
     }
