@@ -1,15 +1,35 @@
 class Solution {
     public int strStr(String haystack, String needle) {
         if(needle.length()>haystack.length())return -1;
-        for(int i=0; i<=haystack.length()-needle.length(); i++){
-            if(startsWith(haystack, needle, i))return i;
+        int[] arr = KMP(needle);
+        int i=0, j=0;
+        while(i<haystack.length() && j<needle.length()){
+            if(haystack.charAt(i)==needle.charAt(j)){
+                i++;
+                j++;
+            }
+            else if(j>0){
+                j = arr[j-1];
+            }
+            else i++;
         }
-        return -1;
+        return j==needle.length() ? i-j : -1;
     }
-    private boolean startsWith(String haystack, String needle, int index){
-        for(int i=0; i<needle.length(); i++){
-            if(haystack.charAt(i+index)!=needle.charAt(i))return false;
+    private int[] KMP(String needle){
+        int[] arr = new int[needle.length()];
+        for(int i=1, j=0; i<needle.length(); i++){
+            if(needle.charAt(i)==needle.charAt(j)){
+                arr[i] = j+1;
+                j++;
+            }
+            else if(j>0){
+                j = arr[j-1];
+                i--;
+            }
+            else {
+                arr[i] = 0;
+            }
         }
-        return true;
+        return arr;
     }
 }
