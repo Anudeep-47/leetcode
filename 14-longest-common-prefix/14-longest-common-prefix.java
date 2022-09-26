@@ -6,7 +6,7 @@ class Solution {
             while(i<str.length() && i<prefix.length() && str.charAt(i)==prefix.charAt(i)){
                 i++;
             }
-            prefix = prefix.substring(0, i);
+            if(i<prefix.length())prefix = prefix.substring(0, i);
         }
         return prefix;
     }
