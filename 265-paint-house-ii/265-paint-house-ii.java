@@ -1,21 +1,42 @@
 class Solution {
     public int minCostII(int[][] costs) {
-        int[] prev = costs[0];
-        for(int i=1; i<costs.length; i++){
-            int[] cur = new int[prev.length];
-            cur[0] = Integer.MAX_VALUE;
-            for(int j=1; j<prev.length; j++){
-                cur[j] = Math.min(cur[j-1], prev[j-1]);
+        int n = costs.length;
+        int k = costs[0].length;
+        int prevMin=-1, prevMinColor=-1, prevSecondMin=-1;
+        for(int i=0; i<k; i++){
+            int cost = costs[0][i];
+            if(prevMin==-1 || cost<prevMin){
+                prevSecondMin = prevMin;
+                prevMin = cost;
+                prevMinColor = i;
             }
-            int rightMin = Integer.MAX_VALUE;
-            for(int j=prev.length-1; j>=0; j--){
-                cur[j] = Math.min(cur[j], rightMin)+costs[i][j];
-                rightMin = Math.min(rightMin, prev[j]);
+            else if(prevSecondMin==-1 || cost<prevSecondMin){
+                prevSecondMin = cost;
             }
-            prev = cur;
         }
-        int minCost = Integer.MAX_VALUE;
-        for(int cost : prev)minCost = Math.min(minCost, cost);
-        return minCost;
+        for(int i=1; i<n; i++){
+            int minCost=-1, minColor=-1, secondMinCost=-1;
+            for(int j=0; j<k; j++){
+                int cost = costs[i][j];
+                if(j==prevMinColor){
+                    cost += prevSecondMin;
+                }
+                else {
+                    cost += prevMin;
+                }
+                if(minCost==-1 || cost<minCost){
+                    secondMinCost = minCost;
+                    minCost = cost;
+                    minColor = j;
+                }
+                else if(secondMinCost==-1 || cost<secondMinCost){
+                    secondMinCost = cost;
+                }
+            }
+            prevMin = minCost;
+            prevMinColor = minColor;
+            prevSecondMin = secondMinCost;
+        }
+        return prevMin;
     }
 }
