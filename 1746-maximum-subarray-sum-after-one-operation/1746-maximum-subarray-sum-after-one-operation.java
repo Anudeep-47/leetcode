@@ -16,10 +16,9 @@ class Solution {
         int notSqrd = nums[0], sqrd = nums[0]*nums[0];
         int res = sqrd;
         for(int i=1; i<nums.length; i++){
-            int nextNotSqrd = Math.max(notSqrd+nums[i], nums[i]);
             sqrd = Math.max(nums[i]*nums[i], Math.max(notSqrd+nums[i]*nums[i], sqrd+nums[i]));
+            notSqrd = Math.max(notSqrd+nums[i], nums[i]);
             res = Math.max(res, sqrd);
-            notSqrd = nextNotSqrd;
         }
         return res;
     }
