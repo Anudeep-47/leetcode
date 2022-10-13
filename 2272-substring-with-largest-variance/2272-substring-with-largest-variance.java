@@ -5,27 +5,27 @@ class Solution {
             counts[c-'a']++;
         }
         int maxVariance = 0;
-        for(int minc = 0; minc<26; minc++){
-            for(int maxc = 0; maxc<26; maxc++){
-                int mincRemain = counts[minc];
-                int maxcRemain = counts[maxc];
-                if(minc==maxc || mincRemain == 0 || maxcRemain == 0) continue;
-                int mincCount = 0, maxcCount = 0;
-                for(int i=0; i<s.length(); i++){
-                    int c = s.charAt(i)-'a';
-                    if(c == minc){
-                        mincCount++;
-                        mincRemain--;
+        for(int first=0; first<26; first++){
+            for(int second=0; second<26; second++){
+                int remainingFirst = counts[first];
+                int remainingSecond = counts[second];
+                if(first==second || remainingFirst==0 || remainingSecond==0)continue;
+                int firstCount=0, secondCount=0;
+                for(char c : s.toCharArray()){
+                    int temp = c-'a';
+                    if(temp == first){
+                        firstCount++;
+                        remainingFirst--;
                     }
-                    if(c == maxc){
-                        maxcCount++;
+                    if(temp == second){
+                        secondCount++;
                     }
-                    if(mincCount>0){
-                        maxVariance = Math.max(maxVariance, maxcCount-mincCount);
+                    if(firstCount>0){
+                        maxVariance = Math.max(maxVariance, secondCount-firstCount);
                     }
-                    if(mincCount>maxcCount && mincRemain>=1){
-                        mincCount = 0;
-                        maxcCount = 0;
+                    if(firstCount>secondCount && remainingFirst>=1){
+                        firstCount=0;
+                        secondCount=0;
                     }
                 }
             }
